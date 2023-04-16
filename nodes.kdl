@@ -1,0 +1,9 @@
+// full example: gives a url, a custom label, and a 88x31 badge
+node "https://www.aphrodite.dev" {
+	label "aphrodite.dev"
+	badge "http://www.aphrodite.dev/assets/badges/badge.gif"
+}
+
+// simplest variant: gives the url:
+// no badge will be saved for it, and the label will be "www.artemix.org"
+node "https://www.artemix.org/"
