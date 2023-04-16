@@ -1,0 +1,15 @@
+name: CI
+on:
+    push:
+        branches: [ "main" ]
+    workflow_dispatch:
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+        - uses: 'actions/checkout@v3'
+        - uses: 'icepuma/rust-action@master'
+          with:
+            args: cargo run
+# PLEASE STOP WITH THIS FUCKING YAML BULLSHIT THIS FORMAT IS PURE SHIT STOP USING IT FFS PLEASE
