@@ -6,4 +6,7 @@ node "https://www.aphrodite.dev" {
 }
 
 node "https://blog.nemirwen.me/"
-node "http://retroweb.nononymous.fr/"
+node "http://retroweb.nononymous.fr/" {
+	label "retroweb"
+	badge "http://retroweb.nononymous.fr/images/retroweb_logo_negatif.png"
+}
