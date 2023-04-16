@@ -1,0 +1,40 @@
+:root {
+	font-family: monospace;
+	background-color: #110021;
+	color: #ff00ff;
+	--calmer: #b539b5;
+}
+
+h1.title::before {
+	content: '\0231C';
+	position: absolute;
+	top: -15pt;
+	left: 20pt;
+}
+
+h1.title::after {
+	content: '\0231F';
+	position: absolute;
+	bottom: -15pt;
+	right: 20pt;
+}
+
+h1.title {
+	position: relative;
+	text-align: center;
+	font-size: 3rem;
+	text-shadow:
+		0 0 20pt #970bdd,
+		0 0 50pt #b539b5;
+	animation: flicker linear 10s infinite;
+}
+
+@keyframes flicker {
+	33% {
+		filter: saturate(90%) hue-rotate(-5deg);
+	}
+
+	66% {
+		filter: saturate(110%) hue-rotate(5deg);
+	}
+}

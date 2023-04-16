@@ -18,7 +18,7 @@ pub fn make_page(data: &PageData) -> Markup {
 				link rel="stylesheet" href="style.css";
 			}
 			body {
-				h1 { (data.title) }
+				h1.title { (data.title) }
 
 				ul {
 					@for node in &data.nodes {
