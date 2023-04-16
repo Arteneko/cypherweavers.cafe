@@ -1,0 +1,9 @@
+title "CypherWeavers' cafe"
+
+node "https://www.aphrodite.dev" {
+	label "aphrodite.dev"
+	badge "http://www.aphrodite.dev/assets/badges/badge.gif"
+}
+
+node "https://blog.nemirwen.me/"
+node "http://retroweb.nononymous.fr/"

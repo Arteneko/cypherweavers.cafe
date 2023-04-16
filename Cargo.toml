@@ -8,5 +8,5 @@ edition = "2021"
 [dependencies]
 maud = "*"
 knuffel = "3"
+url = "2.3"
 miette = { version = "4.3", features = ["fancy"] }
-url = { version = "2.3", features = ["serde"] }
