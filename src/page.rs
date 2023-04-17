@@ -1,9 +1,11 @@
 use maud::{html, Markup, DOCTYPE};
 
+use crate::Social;
+
 pub struct PageData {
 	pub title: String,
 	// (label, url, optional badge)
-	pub nodes: Vec<(String, String, Option<String>)>,
+	pub nodes: Vec<(String, String, Option<String>, Option<Social>)>,
 }
 
 pub fn make_page(data: &PageData) -> Markup {
@@ -20,16 +22,20 @@ pub fn make_page(data: &PageData) -> Markup {
 			body {
 				h1.title { (data.title) }
 
-				ul {
-					@for node in &data.nodes {
-						li {
-							a href=(node.1) title=(node.0) {
-								@if let Some(badge) = &node.2 {
-									img src=(badge) alt=(node.0);
-								} @else {
-									(node.0)
-								}
+
+				@for node in &data.nodes {
+					article.badged[node.2.is_some()].node {
+						@if let Some(badge) = &node.2 {
+							header.badge {
+								img src=(badge) alt=(node.0);
 							}
+						}
+						main.label {
+							a href=(node.1) { (node.0) }
+						}
+						@if let Some(social) = &node.3 {
+							aside.social {
+								a rel="me" href=(social.url) { (social.id) }							}
 						}
 					}
 				}

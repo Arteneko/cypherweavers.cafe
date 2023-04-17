@@ -1,8 +1,10 @@
 :root {
 	font-family: monospace;
-	background-color: #110021;
-	color: #ff00ff;
+	background-color: var(--bg);
+	color: var(--main);
+	--main: #ff00ff;
 	--calmer: #b539b5;
+	--bg: #110021;
 }
 
 h1.title::before {
@@ -23,10 +25,53 @@ h1.title {
 	position: relative;
 	text-align: center;
 	font-size: 3rem;
+	padding: 15pt 20pt 15pt 20pt;
 	text-shadow:
 		0 0 20pt #970bdd,
 		0 0 50pt #b539b5;
 	animation: flicker linear 10s infinite;
+}
+
+ul.nodes {
+	padding-left: 0;
+}
+ul.nodes>li {
+	list-style: none;
+}
+
+.node {
+	display: block;
+	max-width: 400px;
+	margin: 1rem auto;
+	background-color: var(--main);
+	padding: 4px;
+}
+.badged.node {
+	clip-path: polygon(0% 0%, 96px 0%, 96px 30px, 102px 35px, 100% 35px, 100% 93.7%, 97.8% 100%, 0% 100%);
+}
+.node:not(.badged) {
+	clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 97.8% 100%, 0% 100%);
+}
+.node>.badge {
+	height: 31px;
+	width: 88px;
+}
+.node>.label {
+	font-size: 32px;
+}
+.node>.label>a {
+	text-decoration: none;
+	color: var(--bg);
+}
+.node>.social {
+	background-color: var(--bg);
+	padding: 8px;
+	font-size: 18px;
+	clip-path: polygon(0% 6px, 6px 0%, 100% 0%, 100% 86%, 98.5% 100%, 0% 100%);
+}
+.node>.social>a {
+	text-decoration: none;
+	color: var(--main);
 }
 
 @keyframes flicker {

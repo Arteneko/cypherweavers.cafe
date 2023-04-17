@@ -1,8 +1,9 @@
-title "CypherWeavers' cafe"
+title "CypherWeavers' Cafe"
 
 node "https://www.aphrodite.dev" {
 	label "aphrodite.dev"
 	badge "http://www.aphrodite.dev/assets/badges/badge.gif"
+	social "https://octodon.social/@Scarlet" "@Scarlet@octodon.social"
 }
 
 node "https://blog.nemirwen.me/"

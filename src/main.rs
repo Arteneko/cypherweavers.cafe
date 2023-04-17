@@ -14,6 +14,16 @@ struct Node {
 	label: Option<String>,
 	#[knuffel(child, unwrap(argument))]
 	badge: Option<String>,
+	#[knuffel(child)]
+	social: Option<Social>,
+}
+
+#[derive(knuffel::Decode, Debug, Clone)]
+pub struct Social {
+	#[knuffel(argument)]
+	pub url: String,
+	#[knuffel(argument)]
+	pub id: String,
 }
 
 impl<'a> Node {
@@ -62,6 +72,7 @@ impl Into<PageData> for Ring {
 						node.get_label(),
 						node.get_url().to_string(),
 						node.get_badge().map(|v| v.to_string()),
+						node.social.clone(),
 					)
 				})
 				.collect(),
