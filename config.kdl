@@ -10,4 +10,5 @@ node "https://blog.nemirwen.me/"
 node "http://retroweb.nononymous.fr/" {
 	label "retroweb"
 	badge "http://retroweb.nononymous.fr/images/retroweb_logo_negatif.png"
+	social "https://pipou.academy/@nononymous" "@nononymous@pipou.academy"
 }
