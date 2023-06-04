@@ -6,7 +6,10 @@ node "https://www.aphrodite.dev" {
 	social "https://octodon.social/@Scarlet" "@Scarlet@octodon.social"
 }
 
-node "https://blog.nemirwen.me/"
+node "https://blog.nemirwen.me/" {
+	label "blog.nemirwen.me"
+	badge "https://blog.nemirwen.me/favicon.ico"
+}
 node "http://retroweb.nononymous.fr/" {
 	label "retroweb"
 	badge "http://retroweb.nononymous.fr/images/retroweb_logo_negatif.png"
