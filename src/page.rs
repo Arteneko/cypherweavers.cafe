@@ -20,7 +20,15 @@ pub fn make_page(data: &PageData) -> Markup {
 				link rel="stylesheet" href="style.css";
 			}
 			body {
-				h1.title { (data.title) }
+				h1.title {
+					span.banner {
+						span.block {
+							span { "Cypher" }
+							span { "Weavers" }
+						}
+						span.aside { "Cafe" }
+					}
+				}
 
 
 				@for node in &data.nodes {
@@ -32,10 +40,11 @@ pub fn make_page(data: &PageData) -> Markup {
 						}
 						main.label {
 							a href=(node.1) { (node.0) }
-						}
-						@if let Some(social) = &node.3 {
-							aside.social {
-								a rel="me" href=(social.url) { (social.id) }							}
+
+							@if let Some(social) = &node.3 {
+								aside.social {
+									a rel="me" href=(social.url) { (social.id) }							}
+							}
 						}
 					}
 				}

@@ -1,5 +1,6 @@
 :root {
 	font-family: monospace;
+	box-sizing: border-box;
 	background-color: var(--bg);
 	color: var(--main);
 	--main: #ff00ff;
@@ -11,14 +12,14 @@ h1.title::before {
 	content: '\0231C';
 	position: absolute;
 	top: -15pt;
-	left: 20pt;
+	left: 5pt;
 }
 
 h1.title::after {
 	content: '\0231F';
 	position: absolute;
 	bottom: -15pt;
-	right: 20pt;
+	right: 5pt;
 }
 
 h1.title {
@@ -30,6 +31,24 @@ h1.title {
 		0 0 20pt #970bdd,
 		0 0 50pt #b539b5;
 	animation: flicker linear 10s infinite;
+}
+.banner {
+	display: flex;
+	font-family: monospace, monospace;
+	text-transform: uppercase;
+}
+.banner .block {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	font-weight: normal;
+	flex: 2;
+}
+.banner .aside {
+	writing-mode: vertical-lr;
+	text-orientation: upright;
+	font-size: 1.5rem;
+	flex: 1;
 }
 
 ul.nodes {
@@ -63,13 +82,13 @@ ul.nodes>li {
 	text-decoration: none;
 	color: var(--bg);
 }
-.node>.social {
+.social {
 	background-color: var(--bg);
 	padding: 8px;
 	font-size: 18px;
-	clip-path: polygon(0% 6px, 6px 0%, 100% 0%, 100% 86%, 98.5% 100%, 0% 100%);
+	clip-path: polygon(0% 0%, 100% 0%, 100% 86%, 98.5% 100%, 0% 100%);
 }
-.node>.social>a {
+.social>a {
 	text-decoration: none;
 	color: var(--main);
 }
