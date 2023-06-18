@@ -32,13 +32,13 @@ h1.title {
 	text-shadow:
 		0 0 20pt #970bdd,
 		0 0 50pt #b539b5;
-	animation: flicker linear 10s infinite;
 }
 
 .banner {
 	display: flex;
 	font-family: monospace, monospace;
 	text-transform: uppercase;
+	animation: flicker linear 10s infinite;
 }
 
 .banner .block {
