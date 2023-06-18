@@ -34,11 +34,13 @@ h1.title {
 		0 0 50pt #b539b5;
 	animation: flicker linear 10s infinite;
 }
+
 .banner {
 	display: flex;
 	font-family: monospace, monospace;
 	text-transform: uppercase;
 }
+
 .banner .block {
 	display: flex;
 	flex-direction: column;
@@ -46,6 +48,7 @@ h1.title {
 	font-weight: normal;
 	flex: 2;
 }
+
 .banner .aside {
 	writing-mode: vertical-lr;
 	text-orientation: upright;
@@ -59,6 +62,7 @@ h1.title {
 ul.nodes {
 	padding-left: 0;
 }
+
 ul.nodes>li {
 	list-style: none;
 }
@@ -70,29 +74,41 @@ ul.nodes>li {
 	background-color: var(--main);
 	padding: 4px;
 }
+
 .badged.node {
 	clip-path: polygon(0% 0%, 96px 0%, 96px 30px, 102px 35px, 100% 35px, 100% 93.7%, 97.8% 100%, 0% 100%);
 }
+
 .node:not(.badged) {
 	clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 97.8% 100%, 0% 100%);
 }
+
 .node>.badge {
 	height: 31px;
 	width: 88px;
 }
+
+.node>.badge>img {
+	max-height: 31px;
+	max-width: 88px;
+}
+
 .node>.label {
 	font-size: 32px;
 }
+
 .node>.label>a {
 	text-decoration: none;
 	color: var(--bg);
 }
+
 .social {
 	background-color: var(--bg);
 	padding: 8px;
 	font-size: 18px;
 	clip-path: polygon(0% 0%, 100% 0%, 100% 86%, 98.5% 100%, 0% 100%);
 }
+
 .social>a {
 	text-decoration: none;
 	color: var(--main);
