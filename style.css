@@ -23,6 +23,8 @@ h1.title::after {
 }
 
 h1.title {
+	display: inline-block;
+	margin: 2rem auto;
 	position: relative;
 	text-align: center;
 	font-size: 3rem;
@@ -47,8 +49,11 @@ h1.title {
 .banner .aside {
 	writing-mode: vertical-lr;
 	text-orientation: upright;
-	font-size: 1.5rem;
+	font-size: 1.3rem;
 	flex: 1;
+	margin-left: 0.5rem;
+	border: 2pt solid;
+	border-bottom-left-radius: 5pt;
 }
 
 ul.nodes {

@@ -20,13 +20,15 @@ pub fn make_page(data: &PageData) -> Markup {
 				link rel="stylesheet" href="style.css";
 			}
 			body {
-				h1.title {
-					span.banner {
-						span.block {
-							span { "Cypher" }
-							span { "Weavers" }
+				header.banner {
+					h1.title {
+						span.banner {
+							span.block {
+								span { "Cypher" }
+								span { "Weavers" }
+							}
+							span.aside { "Cafe" }
 						}
-						span.aside { "Cafe" }
 					}
 				}
 
