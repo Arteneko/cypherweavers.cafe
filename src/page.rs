@@ -45,7 +45,8 @@ pub fn make_page(data: &PageData) -> Markup {
 
 							@if let Some(social) = &node.3 {
 								aside.social {
-									a rel="me" href=(social.url) { (social.id) }							}
+									a rel="me" href=(social.url) { (social.id) }
+								}
 							}
 						}
 					}

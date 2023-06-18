@@ -1,13 +1,21 @@
+use cache::download;
 use page::PageData;
-use std::fs::{self, copy, create_dir_all};
+use std::{
+	collections::hash_map::DefaultHasher,
+	error::Error,
+	fs::{self, copy, create_dir_all},
+	hash::Hasher,
+};
 use url::Url;
 
 use crate::page::make_page;
 
+mod cache;
 mod page;
 
-#[derive(knuffel::Decode, Debug)]
+#[derive(knuffel::Decode, Debug, Clone)]
 struct Node {
+	extension: String,
 	#[knuffel(argument)]
 	url: String,
 	#[knuffel(child, unwrap(argument))]
@@ -27,6 +35,14 @@ pub struct Social {
 }
 
 impl<'a> Node {
+	// This generates a hash based on the label.
+	// it's notably used for associating the in-cache badge image to the node
+	fn get_id(&'a self) -> String {
+		let mut hasher = DefaultHasher::new();
+		hasher.write(self.get_label().as_bytes());
+		hasher.finish().to_string()
+	}
+
 	fn get_url(&'a self) -> Url {
 		Url::parse(&self.url).expect(format!("invalid url: {}", &self.url).as_str())
 	}
@@ -34,6 +50,14 @@ impl<'a> Node {
 	fn get_badge(&'a self) -> Option<Url> {
 		if let Some(badge) = &self.badge {
 			Some(Url::parse(badge).expect(format!("invalid url: {}", badge).as_str()))
+		} else {
+			None
+		}
+	}
+
+	fn get_cached_badge(&'a self) -> Option<String> {
+		if let Some(_) = &self.get_badge() {
+			Some(format!("{}.badge.{}", self.get_id(), self.extension))
 		} else {
 			None
 		}
@@ -52,7 +76,7 @@ impl<'a> Node {
 	}
 }
 
-#[derive(knuffel::Decode, Debug)]
+#[derive(knuffel::Decode, Debug, Clone)]
 struct Ring {
 	#[knuffel(child, unwrap(argument))]
 	title: String,
@@ -71,7 +95,7 @@ impl Into<PageData> for Ring {
 					(
 						node.get_label(),
 						node.get_url().to_string(),
-						node.get_badge().map(|v| v.to_string()),
+						node.get_cached_badge(),
 						node.social.clone(),
 					)
 				})
@@ -85,8 +109,7 @@ impl Into<PageData> for Ring {
 	}
 }
 
-fn make_output(content: &String) -> Result<(), std::io::Error> {
-	create_dir_all("public")?;
+fn make_output(content: &String) -> Result<(), Box<dyn Error>> {
 	copy("style.css", "public/style.css")?;
 	fs::write("public/index.html", content)?;
 
@@ -96,9 +119,24 @@ fn make_output(content: &String) -> Result<(), std::io::Error> {
 fn main() {
 	let filename = "config.kdl";
 	let nodefile = fs::read_to_string(filename).expect("config.kdl file not found");
-	let ring = knuffel::parse::<Ring>(filename, &nodefile).expect("invalid kdl file");
-	let web_page = make_page(&ring.into());
+	let mut ring = knuffel::parse::<Ring>(filename, &nodefile).expect("invalid kdl file");
 
+	println!(":: making a cute lil webring in public/");
+	create_dir_all("public").expect("somehow failed to create the public dir");
+
+	println!(":: it has {} sites!! wow!!!", ring.nodes.len());
+
+	println!(":: grabbing the lil badge thingies");
+	for node in &mut ring.nodes {
+		if let Some(badge_url) = node.get_badge() {
+			let proper_extension = download(badge_url, &format!("public/{}.badge", node.get_id()))
+				.expect("somehow failed to grab the lil badge thingies");
+			node.extension = proper_extension;
+		}
+	}
+
+	println!(":: making the hypersoup document");
+	let web_page = make_page(&ring.clone().into());
 	make_output(&web_page.0).expect("somehow failed to create the website on-disk");
 
 	println!("woof!");
