@@ -1,4 +1,5 @@
 use cache::download;
+use serde_json::json;
 use std::{
 	error::Error,
 	fs::{self, copy, create_dir_all},
@@ -10,9 +11,10 @@ mod cache;
 mod config;
 mod page;
 
-fn make_output(content: &String) -> Result<(), Box<dyn Error>> {
+fn make_output(content: &String, config: &String) -> Result<(), Box<dyn Error>> {
 	copy("style.css", "public/style.css")?;
 	fs::write("public/index.html", content)?;
+	fs::write("public/config.json", config)?;
 
 	Ok(())
 }
@@ -29,6 +31,26 @@ fn main() {
 
 	println!(":: it has {} sites!! wow!!!", ring.nodes.len());
 
+	for knows in &ring.knows {
+		if ring.neighbors.iter().find(|n| n.id == knows.id).is_none() {
+			println!(
+				"!! the ring says it knows {} but there's no neighbor with this id",
+				knows.id
+			);
+		}
+	}
+	for node in &ring.nodes {
+		for knows in &node.knows {
+			if ring.neighbors.iter().find(|n| n.id == knows.id).is_none() {
+				println!(
+					"!! site {} says it knows {} but there's no neighbor with this id",
+					node.get_label(),
+					knows.id
+				);
+			}
+		}
+	}
+
 	println!(":: grabbing the lil badge thingies");
 	for node in &mut ring.nodes {
 		if let Some(badge_url) = node.get_badge() {
@@ -40,7 +62,11 @@ fn main() {
 
 	println!(":: making the hypersoup document");
 	let web_page = make_page(&ring.clone().into());
-	make_output(&web_page.0).expect("somehow failed to create the website on-disk");
 
-	println!("woof!");
+	let json_config = json!(ring);
+
+	make_output(&web_page.0, &json_config.to_string())
+		.expect("somehow failed to create the website on-disk");
+
+	println!(":: woof!");
 }

@@ -1,5 +1,7 @@
 title "CypherWeavers' Cafe"
 
+neighbor "xxiivv" "https://webring.xxiivv.com" type="ring"
+
 node "https://www.aphrodite.dev" {
 	label "aphrodite.dev"
 	badge "https://www.aphrodite.dev/assets/badges/badge.gif"
@@ -7,6 +9,8 @@ node "https://www.aphrodite.dev" {
 
 	bio "ΔΘ do[ggo|ll]; i need lots of headpats and treats 🥺"
 	bio "Broken cryptid coding weird shit once a year or so."
+
+	knows "xxiivv"
 }
 
 node "https://blog.nemirwen.me/" {

@@ -1,14 +1,46 @@
 use std::{collections::hash_map::DefaultHasher, hash::Hasher};
 
+use serde::Serialize;
 use url::Url;
 
-#[derive(knuffel::Decode, Debug, Clone)]
+#[derive(knuffel::DecodeScalar, Serialize, Debug, Clone)]
+pub enum NeighborType {
+	Ring,
+	Website,
+}
+
+#[derive(knuffel::Decode, Serialize, Debug, Clone)]
+pub struct Neighbor {
+	#[knuffel(argument)]
+	pub id: String,
+	#[knuffel(argument)]
+	pub link: String,
+	#[knuffel(property(name = "type"))]
+	pub node_type: NeighborType,
+	#[knuffel(property)]
+	pub label: Option<String>,
+}
+
+impl Neighbor {
+	pub fn get_label(self) -> String {
+		self.label.unwrap_or(self.id)
+	}
+}
+
+#[derive(knuffel::Decode, Serialize, Debug, Clone)]
 pub struct Bio {
 	#[knuffel(argument)]
 	pub paragraph: String,
 }
 
-#[derive(knuffel::Decode, Debug, Clone)]
+#[derive(knuffel::Decode, Serialize, Debug, Clone)]
+// knows a certain neighbor
+pub struct Knows {
+	#[knuffel(argument)]
+	pub id: String,
+}
+
+#[derive(knuffel::Decode, Serialize, Debug, Clone)]
 pub struct Node {
 	pub extension: String,
 	#[knuffel(argument)]
@@ -21,9 +53,11 @@ pub struct Node {
 	pub social: Option<Social>,
 	#[knuffel(children(name = "bio"))]
 	pub bio: Vec<Bio>,
+	#[knuffel(children(name = "knows"))]
+	pub knows: Vec<Knows>,
 }
 
-#[derive(knuffel::Decode, Debug, Clone)]
+#[derive(knuffel::Decode, Serialize, Debug, Clone)]
 pub struct Social {
 	#[knuffel(argument)]
 	pub url: String,
@@ -73,10 +107,14 @@ impl<'a> Node {
 	}
 }
 
-#[derive(knuffel::Decode, Debug, Clone)]
+#[derive(knuffel::Decode, Serialize, Debug, Clone)]
 pub struct Ring {
 	#[knuffel(child, unwrap(argument))]
 	pub title: String,
 	#[knuffel(children(name = "node"))]
 	pub nodes: Vec<Node>,
+	#[knuffel(children(name = "neighbor"))]
+	pub neighbors: Vec<Neighbor>,
+	#[knuffel(children(name = "knows"))]
+	pub knows: Vec<Knows>,
 }
