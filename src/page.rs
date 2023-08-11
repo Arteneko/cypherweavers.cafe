@@ -1,14 +1,8 @@
 use maud::{html, Markup, DOCTYPE};
 
-use crate::Social;
+use crate::config::Ring;
 
-pub struct PageData {
-	pub title: String,
-	// (label, url, optional badge)
-	pub nodes: Vec<(String, String, Option<String>, Option<Social>)>,
-}
-
-pub fn make_page(data: &PageData) -> Markup {
+pub fn make_page(data: &Ring) -> Markup {
 	html! {
 		(DOCTYPE)
 		html {
@@ -32,18 +26,28 @@ pub fn make_page(data: &PageData) -> Markup {
 					}
 				}
 
+				section.page {
+					h2 { "Home" span.cursor-blink; }
 
-				@for node in &data.nodes {
-					article.badged[node.2.is_some()].node {
-						@if let Some(badge) = &node.2 {
-							header.badge {
-								img src=(badge) alt=(node.0);
+					@for node in &data.nodes {
+						article.badged[node.badge.is_some()].node {
+							@if let Some(badge) = &node.get_cached_badge() {
+								header.badge {
+									img src=(badge) alt=(node.get_label());
+								}
 							}
-						}
-						main.label {
-							a href=(node.1) { (node.0) }
+							main {
+								h3.label { a href=(node.get_url().as_str()) { (node.get_label()) } }
 
-							@if let Some(social) = &node.3 {
+								@if node.bio.len() != 0 {
+									section.bio {
+										@for line in &node.bio {
+											p { (line.paragraph) }
+										}
+									}
+								}
+							}
+							@if let Some(social) = &node.social {
 								aside.social {
 									a rel="me" href=(social.url) { (social.id) }
 								}

@@ -4,6 +4,9 @@ node "https://www.aphrodite.dev" {
 	label "aphrodite.dev"
 	badge "https://www.aphrodite.dev/assets/badges/badge.gif"
 	social "https://octodon.social/@Scarlet" "@Scarlet@octodon.social"
+
+	bio "ΔΘ do[ggo|ll]; i need lots of headpats and treats 🥺"
+	bio "Broken cryptid coding weird shit once a year or so."
 }
 
 node "https://blog.nemirwen.me/" {
