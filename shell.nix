@@ -5,7 +5,7 @@ pkgs.mkShell {
     # dev tools
     rustfmt clippy rust-analyzer
     # native dependencies
-    # pkg-config
+    pkg-config openssl
   ];
   
   # See https://discourse.nixos.org/t/rust-src-not-found-and-other-misadventures-of-developing-rust-on-nixos/11570/3?u=samuela. for more details.

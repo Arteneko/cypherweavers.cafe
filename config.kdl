@@ -2,23 +2,22 @@ title "CypherWeavers' Cafe"
 
 neighbor "xxiivv" "https://webring.xxiivv.com" type="ring"
 
-node "https://www.aphrodite.dev" {
-	label "aphrodite.dev"
-	badge "https://www.aphrodite.dev/assets/badges/badge.gif"
+node "https://www.aphrodite.dev" \
+	label="aphrodite.dev" \
+	badge="https://www.aphrodite.dev/assets/badges/badge.gif" {
 	social "https://octodon.social/@Scarlet" "@Scarlet@octodon.social"
-
 	bio "ΔΘ do[ggo|ll]; i need lots of headpats and treats 🥺"
 	bio "Broken cryptid coding weird shit once a year or so."
 
 	knows "xxiivv"
 }
 
-node "https://blog.nemirwen.me/" {
-	label "blog.nemirwen.me"
-	badge "https://blog.nemirwen.me/favicon.ico"
-}
-node "http://retroweb.nononymous.fr/" {
-	label "retroweb"
-	badge "http://retroweb.nononymous.fr/images/retroweb_logo_negatif.png"
+node "https://blog.nemirwen.me/" \
+	label="blog.nemirwen.me" \
+	badge="https://blog.nemirwen.me/favicon.ico"
+
+node "http://retroweb.nononymous.fr/" \
+	label="retroweb" \
+	badge="http://retroweb.nononymous.fr/images/retroweb_logo_negatif.png" {
 	social "https://pipou.academy/@nononymous" "@nononymous@pipou.academy"
 }

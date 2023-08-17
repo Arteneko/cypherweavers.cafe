@@ -45,10 +45,11 @@ pub struct Node {
 	pub extension: String,
 	#[knuffel(argument)]
 	pub url: String,
-	#[knuffel(child, unwrap(argument))]
+	#[knuffel(property)]
 	pub label: Option<String>,
-	#[knuffel(child, unwrap(argument))]
+	#[knuffel(property)]
 	pub badge: Option<String>,
+	// TODO: Make social links a list instead of single v.
 	#[knuffel(child)]
 	pub social: Option<Social>,
 	#[knuffel(children(name = "bio"))]
