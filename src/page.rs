@@ -1,30 +1,21 @@
 use maud::{html, Markup, DOCTYPE};
 
-use crate::config::Ring;
+use crate::{
+	config::Ring,
+	fragments::{banner, head},
+};
 
 pub fn make_page(data: &Ring) -> Markup {
 	html! {
 		(DOCTYPE)
 		html {
 			head {
-				meta charset="utf-8";
-				meta name="viewport" content="width=device-width, initial-scale=1";
-				title { (data.title) }
+				(head())
 
-				link rel="stylesheet" href="style.css";
+				title { (data.title) }
 			}
 			body {
-				header.banner {
-					h1.title {
-						span.banner {
-							span.block {
-								span { "Cypher" }
-								span { "Weavers" }
-							}
-							span.aside { "Cafe" }
-						}
-					}
-				}
+				(banner())
 
 				section.page {
 					h2 { "Home" span.cursor-blink; }

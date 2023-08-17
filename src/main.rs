@@ -5,13 +5,19 @@ use std::{
 	fs::{self, copy, create_dir_all},
 };
 
-use crate::{config::Ring, page::make_page};
+use crate::{card::make_card_page, config::Ring, page::make_page};
 
 mod cache;
+mod card;
 mod config;
+mod fragments;
 mod page;
 
-fn make_output(content: &String, config: &String) -> Result<(), Box<dyn Error>> {
+fn make_output(
+	content: &String,
+	_cards: &Vec<String>,
+	config: &String,
+) -> Result<(), Box<dyn Error>> {
 	copy("style.css", "public/style.css")?;
 	fs::write("public/index.html", content)?;
 	fs::write("public/config.json", config)?;
@@ -60,12 +66,18 @@ fn main() {
 		}
 	}
 
-	println!(":: making the hypersoup document");
+	println!(":: making the hypersoup documents");
 	let web_page = make_page(&ring.clone().into());
+	let card_pages: Vec<String> = ring
+		.nodes
+		.clone()
+		.into_iter()
+		.map(|node| make_card_page(&node, &ring.neighbors).into_string())
+		.collect();
 
 	let json_config = json!(ring);
 
-	make_output(&web_page.0, &json_config.to_string())
+	make_output(&web_page.0, &card_pages, &json_config.to_string())
 		.expect("somehow failed to create the website on-disk");
 
 	println!(":: woof!");
