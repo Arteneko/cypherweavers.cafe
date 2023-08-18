@@ -2,7 +2,7 @@ use maud::{html, Markup, DOCTYPE};
 
 use crate::{
 	config::Ring,
-	fragments::{banner, head},
+	html::fragments::{banner, head},
 };
 
 pub fn make_page(data: &Ring) -> Markup {

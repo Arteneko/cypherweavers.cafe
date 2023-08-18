@@ -2,7 +2,7 @@ use maud::{html, Markup, DOCTYPE};
 
 use crate::{
 	config::{Neighbor, Node},
-	fragments::head,
+	html::fragments::head,
 };
 
 pub fn make_card_page(

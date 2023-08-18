@@ -5,13 +5,14 @@ use std::{
 	fs::{self, copy, create_dir_all},
 };
 
-use crate::{card::make_card_page, config::Ring, page::make_page};
+use crate::{
+	config::Ring,
+	html::{make_card_page, make_page},
+};
 
 mod cache;
-mod card;
 mod config;
-mod fragments;
-mod page;
+mod html;
 
 fn make_output(
 	content: &String,
