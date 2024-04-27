@@ -21,3 +21,11 @@ node "http://retroweb.nononymous.fr/" \
 	badge="http://retroweb.nononymous.fr/images/retroweb_logo_negatif.png" {
 	social "https://pipou.academy/@nononymous" "@nononymous@pipou.academy"
 }
+
+node "https://oniricorpe.eu/" \
+	label="OniriCorpe — Émy" \
+	badge="https://oniricorpe.eu/700736564128645271.webp" {
+	social "https://octodon.social/@OniriCorpe" "@OniriCorpe@octodon.social [fr]"
+	social "https://woof.tech/@CyberSaloperie" "@CyberSaloperie@woof.tech [en]"
+	bio "glitched thing trying their best 🍃"
+}
