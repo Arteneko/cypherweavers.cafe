@@ -38,9 +38,15 @@ pub fn make_page(data: &Ring) -> Markup {
 									}
 								}
 							}
-							@if let Some(social) = &node.social {
+							@if node.social.len() != 0 {
 								aside.social {
-									a rel="me" href=(social.url) { (social.id) }
+									ul {
+										@for s in &node.social {
+											li {
+												a rel="me" href=(s.url) { (s.id) }
+											}
+										}
+									}
 								}
 							}
 						}

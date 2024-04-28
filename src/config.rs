@@ -21,12 +21,6 @@ pub struct Neighbor {
 	pub label: Option<String>,
 }
 
-impl Neighbor {
-	pub fn get_label(self) -> String {
-		self.label.unwrap_or(self.id)
-	}
-}
-
 #[derive(knuffel::Decode, Serialize, Debug, Clone)]
 pub struct Bio {
 	#[knuffel(argument)]
@@ -49,9 +43,9 @@ pub struct Node {
 	pub label: Option<String>,
 	#[knuffel(property)]
 	pub badge: Option<String>,
-	// TODO: Make social links a list instead of single v.
-	#[knuffel(child)]
-	pub social: Option<Social>,
+	#[knuffel(children(name = "social"))]
+	#[serde(default)]
+	pub social: Vec<Social>,
 	#[knuffel(children(name = "bio"))]
 	pub bio: Vec<Bio>,
 	#[knuffel(children(name = "knows"))]

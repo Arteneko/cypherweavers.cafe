@@ -27,6 +27,7 @@ pub fn download(url: Url, output_path: &str) -> Result<String, Box<dyn Error>> {
 		"image/jpg" | "image/jpeg" => "jpeg",
 		"image/gif" => "gif",
 		"image/bmp" => "bmp",
+		"image/webp" => "webp",
 		"image/vnd.microsoft.icon" => "ico",
 		wat => {
 			println!(":: 	got content type {}, wat??", wat);
