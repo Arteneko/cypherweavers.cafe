@@ -132,14 +132,27 @@ section.page {
 
 .social {
 	background-color: var(--bg);
-	padding: 8px;
+	padding: 2px 4px 2px 4px;
 	font-size: 18px;
 	clip-path: polygon(0% 0%, 100% 0%, 100% 86%, 98.5% 100%, 0% 100%);
 }
 
-.social>a {
+.social a {
 	text-decoration: none;
 	color: var(--main);
+}
+
+.social ul {
+	padding: 0;
+	margin: 0;
+}
+
+.social ul li {
+	padding: 2px;
+}
+
+.social ul li:not(:last-of-type) {
+	padding-bottom: 8px;
 }
 
 @keyframes flicker {
