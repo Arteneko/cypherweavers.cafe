@@ -1,4 +1,3 @@
-use cache::download;
 use serde_json::json;
 use std::{
 	error::Error,
@@ -6,6 +5,7 @@ use std::{
 };
 
 use crate::{
+	cache::Downloader,
 	config::Ring,
 	html::{make_card_page, make_page},
 };
@@ -32,6 +32,7 @@ fn main() -> miette::Result<()> {
 	let mut ring = knuffel::parse::<Ring>(filename, &nodefile)?;
 	ring.nodes
 		.sort_unstable_by(|a, b| a.get_label().cmp(&b.get_label()));
+	let downloader = Downloader::init().expect("unable to init http client");
 
 	println!(":: making a cute lil webring in public/");
 	create_dir_all("public").expect("somehow failed to create the public dir");
@@ -41,7 +42,7 @@ fn main() -> miette::Result<()> {
 	println!(":: grabbing the lil badge thingies");
 	for node in &mut ring.nodes {
 		if let Some(badge_url) = node.get_badge() {
-			match download(badge_url, &node.get_label()) {
+			match downloader.download(badge_url, &node.get_label()) {
 				Ok(cached_name) => node.cached_badge_url = Some(cached_name),
 				Err(e) => println!(
 					"failed to grab the lil badge thingy for {}: {:?}",

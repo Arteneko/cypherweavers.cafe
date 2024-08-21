@@ -29,6 +29,7 @@ node "https://oniricorpe.eu/" \
 
 // neighboring webrings
 neighbor "Indigo's link hoard" "https://xaselgio.net/pages/links/" "https://xaselgio.net/88x31_xaselgio_v2.gif"
+neighbor "elysium.gay" "https://akko.elysium.gay/" "https://stardust.elysium.gay/wp-content/uploads/2024/03/elysiumnet.png"
 
 // neighboring nodes we encountered
 peer "Xaselgio" "https://xaselgio.net/" "https://xaselgio.net/88x31_xaselgio_v2.gif"

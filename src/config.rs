@@ -24,7 +24,7 @@ pub struct Node {
 	#[knuffel(property)]
 	pub label: Option<String>,
 	#[knuffel(property)]
-	pub badge: Option<String>,
+	badge: Option<String>,
 	#[knuffel(children(name = "social"))]
 	#[serde(default)]
 	pub social: Vec<Social>,

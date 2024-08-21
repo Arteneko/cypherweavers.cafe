@@ -29,9 +29,8 @@ h1.title {
 	text-align: center;
 	font-size: 3rem;
 	padding: 15pt 20pt 15pt 20pt;
-	text-shadow:
-		0 0 20pt #970bdd,
-		0 0 50pt #b539b5;
+	text-shadow: 0 0 20pt #970bdd,
+	0 0 50pt #b539b5;
 }
 
 .banner {
@@ -62,26 +61,50 @@ h1.title {
 section.page {
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
 	max-width: 400px;
 	margin: 0 auto;
 }
 
-.page>h2 {
+section.page > *:not(:first-of-type) {
+	margin-top: 20px;
+}
+
+.page > h2 {
 	text-transform: lowercase;
 }
 
-.page>h2::before {
+.page > h2::before {
 	content: '/';
 }
 
-.page>h2::after {
+.page > h2::after {
 	content: '█';
 	animation: cursor-blink 1.5s steps(2) infinite;
 }
 
-.cursor-blink::after {
+.ls-blink::after {
 	content: '$ ls';
+}
+
+.nmap-blink::after {
+	content: '$ nmap 10.10.0.0/8'
+}
+
+div.badges {
+	display: flex;
+	/*gap: 1rem;*/
+	/*column-gap: 1rem;*/
+}
+
+a.ring-badge:not(:first-of-type) {
+	margin-left: 1rem;
+}
+
+a.ring-badge {
+	display: block;
+	background-color: var(--main);
+	max-width: 88px;
+	max-height: 31px;
 }
 
 @keyframes cursor-blink {
@@ -103,12 +126,12 @@ section.page {
 	clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 97.8% 100%, 0% 100%);
 }
 
-.node>.badge {
+.node > .badge {
 	height: 31px;
 	width: 88px;
 }
 
-.node>.badge>img {
+.node > .badge > img {
 	max-height: 31px;
 	max-width: 88px;
 }
@@ -119,12 +142,12 @@ section.page {
 	font-weight: unset;
 }
 
-.node .label>a {
+.node .label > a {
 	text-decoration: none;
 	color: var(--bg);
 }
 
-.node .bio>p {
+.node .bio > p {
 	color: var(--bg);
 	font-size: 18px;
 	margin: 2px 0 8px 2px;

@@ -10,41 +10,56 @@ use std::{
 
 use reqwest::header::CONTENT_TYPE;
 
-pub fn download(url: &str, label: &str) -> Result<String, Box<dyn Error>> {
-	println!(":: grabbing the badge at {}", url);
+pub struct Downloader {
+	client: reqwest::blocking::Client,
+}
 
-	let mut res = reqwest::blocking::get(url)?;
+impl Downloader {
+	pub fn init() -> reqwest::Result<Self> {
+		let client = reqwest::blocking::Client::builder()
+			.use_rustls_tls()
+			.user_agent("gh/Arteneko/cypherweavers.cafe")
+			.build()?;
 
-	let headers = res.headers();
-	let content_type = headers
-		.get(CONTENT_TYPE)
-		.map(|v| {
-			v.to_str()
-				.expect("the content-type header should have a proper value")
-		})
-		.expect("the server should provide a content-type for this image");
+		Ok(Downloader { client })
+	}
 
-	// being proper abt. the extension because some browsers are bitching
-	let extension = match content_type {
-		"image/png" => "png",
-		"image/jpg" | "image/jpeg" => "jpeg",
-		"image/gif" => "gif",
-		"image/bmp" => "bmp",
-		"image/webp" => "webp",
-		"image/vnd.microsoft.icon" => "ico",
-		wat => {
-			println!(":: 	got content type {}, wat??", wat);
-			panic!("content_type doesn't make sense");
-		}
-	};
+	pub fn download(&self, url: &str, label: &str) -> Result<String, Box<dyn Error>> {
+		println!(":: grabbing the badge at {}", url);
 
-	// Generating a proper filename
-	let mut hasher = DefaultHasher::new();
-	hasher.write(label.as_bytes());
-	let output_file = format!("badge.{}.{}", hasher.finish().to_string(), extension);
+		let mut res = self.client.get(url).send()?;
 
-	let mut file = File::create(format!("public/{}", output_file))?;
-	res.copy_to(&mut file)?;
+		let headers = res.headers();
+		let content_type = headers
+			.get(CONTENT_TYPE)
+			.map(|v| {
+				v.to_str()
+					.expect("the content-type header should have a proper value")
+			})
+			.expect("the server should provide a content-type for this image");
 
-	Ok(output_file)
+		// being proper abt. the extension because some browsers are bitching
+		let extension = match content_type {
+			"image/png" => "png",
+			"image/jpg" | "image/jpeg" => "jpeg",
+			"image/gif" => "gif",
+			"image/bmp" => "bmp",
+			"image/webp" => "webp",
+			"image/vnd.microsoft.icon" => "ico",
+			wat => {
+				println!(":: 	got content type {}, wat??", wat);
+				panic!("content_type doesn't make sense");
+			}
+		};
+
+		// Generating a proper filename
+		let mut hasher = DefaultHasher::new();
+		hasher.write(label.as_bytes());
+		let output_file = format!("badge.{}.{}", hasher.finish().to_string(), extension);
+
+		let mut file = File::create(format!("public/{}", output_file))?;
+		res.copy_to(&mut file)?;
+
+		Ok(output_file)
+	}
 }

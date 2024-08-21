@@ -18,11 +18,12 @@ pub fn make_page(data: &Ring) -> Markup {
 				(banner())
 
 				section.page {
-					h2 { "Home" span.cursor-blink; }
+					h2 { "Home" span.ls-blink; }
 
 					@for node in &data.nodes {
-						article.badged[node.badge.is_some()].node {
-							@if let Some(badge) = &node.get_badge() {
+						@let node_badge = node.get_badge();
+						article.badged[node_badge.is_some()].node {
+							@if let Some(badge) = &node_badge {
 								header.badge {
 									img src=(badge) alt=(node.get_label());
 								}
