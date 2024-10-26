@@ -1,7 +1,4 @@
-use std::{collections::hash_map::DefaultHasher, hash::Hasher};
-
 use serde::Serialize;
-use url::Url;
 
 // Neighbor is both webring neighbor and peer (individual entity) neighbor
 #[derive(knuffel::Decode, Serialize, Debug, Clone)]
@@ -22,7 +19,6 @@ pub struct Bio {
 
 #[derive(knuffel::Decode, Serialize, Debug, Clone)]
 pub struct Node {
-	pub extension: String,
 	#[knuffel(argument)]
 	pub url: String,
 	#[knuffel(property)]
@@ -34,8 +30,11 @@ pub struct Node {
 	pub social: Vec<Social>,
 	#[knuffel(children(name = "bio"))]
 	pub bio: Vec<Bio>,
+
+	pub cached_badge_url: Option<String>,
 }
 
+// TODO: want to rework how the nodes we ref are made cuz its kinda messy
 #[derive(knuffel::Decode, Serialize, Debug, Clone)]
 pub struct Social {
 	#[knuffel(argument)]
@@ -45,44 +44,12 @@ pub struct Social {
 }
 
 impl<'a> Node {
-	// This generates a hash based on the label.
-	// it's notably used for associating the in-cache badge image to the node
-	pub fn get_id(&'a self) -> String {
-		let mut hasher = DefaultHasher::new();
-		hasher.write(self.get_label().as_bytes());
-		hasher.finish().to_string()
+	pub fn get_badge(&'a self) -> Option<&'a String> {
+		self.cached_badge_url.as_ref().or(self.badge.as_ref())
 	}
 
-	pub fn get_url(&'a self) -> Url {
-		Url::parse(&self.url).expect(format!("invalid url: {}", &self.url).as_str())
-	}
-
-	pub fn get_badge(&'a self) -> Option<Url> {
-		if let Some(badge) = &self.badge {
-			Some(Url::parse(badge).expect(format!("invalid url: {}", badge).as_str()))
-		} else {
-			None
-		}
-	}
-
-	pub fn get_cached_badge(&'a self) -> Option<String> {
-		if let Some(_) = &self.get_badge() {
-			Some(format!("{}.badge.{}", self.get_id(), self.extension))
-		} else {
-			None
-		}
-	}
-
-	pub fn get_label(&'a self) -> String {
-		if let Some(label) = &self.label {
-			String::from(label)
-		} else {
-			String::from(
-				self.get_url()
-					.host_str()
-					.expect("node url should have a domain fragment"),
-			)
-		}
+	pub fn get_label(&'a self) -> &'a str {
+		self.label.as_ref().unwrap_or(&self.url)
 	}
 }
 

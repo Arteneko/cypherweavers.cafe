@@ -2,12 +2,15 @@
 // we download badges to publish them alongside the website for
 // cache / archive / cross-site perfs reasons
 
-use std::{error::Error, fs::File};
+use std::{
+	error::Error,
+	fs::File,
+	hash::{DefaultHasher, Hasher},
+};
 
 use reqwest::header::CONTENT_TYPE;
-use url::Url;
 
-pub fn download(url: Url, output_path: &str) -> Result<String, Box<dyn Error>> {
+pub fn download(url: &str, label: &str) -> Result<String, Box<dyn Error>> {
 	println!(":: grabbing the badge at {}", url);
 
 	let mut res = reqwest::blocking::get(url)?;
@@ -35,9 +38,13 @@ pub fn download(url: Url, output_path: &str) -> Result<String, Box<dyn Error>> {
 		}
 	};
 
-	let mut file = File::create(format!("{}.{}", output_path, extension))?;
+	// Generating a proper filename
+	let mut hasher = DefaultHasher::new();
+	hasher.write(label.as_bytes());
+	let output_file = format!("badge.{}.{}", hasher.finish().to_string(), extension);
 
+	let mut file = File::create(format!("public/{}", output_file))?;
 	res.copy_to(&mut file)?;
 
-	Ok(String::from(extension))
+	Ok(output_file)
 }

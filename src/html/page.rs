@@ -22,13 +22,13 @@ pub fn make_page(data: &Ring) -> Markup {
 
 					@for node in &data.nodes {
 						article.badged[node.badge.is_some()].node {
-							@if let Some(badge) = &node.get_cached_badge() {
+							@if let Some(badge) = &node.get_badge() {
 								header.badge {
 									img src=(badge) alt=(node.get_label());
 								}
 							}
 							main {
-								h3.label { a href=(node.get_url().as_str()) { (node.get_label()) } }
+								h3.label { a href=(node.url) { (node.get_label()) } }
 
 								@if node.bio.len() != 0 {
 									section.bio {

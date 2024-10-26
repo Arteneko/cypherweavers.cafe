@@ -41,9 +41,14 @@ fn main() -> miette::Result<()> {
 	println!(":: grabbing the lil badge thingies");
 	for node in &mut ring.nodes {
 		if let Some(badge_url) = node.get_badge() {
-			let proper_extension = download(badge_url, &format!("public/{}.badge", node.get_id()))
-				.expect("somehow failed to grab the lil badge thingies");
-			node.extension = proper_extension;
+			match download(badge_url, &node.get_label()) {
+				Ok(cached_name) => node.cached_badge_url = Some(cached_name),
+				Err(e) => println!(
+					"failed to grab the lil badge thingy for {}: {:?}",
+					node.get_label(),
+					e
+				),
+			};
 		}
 	}
 
