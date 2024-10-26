@@ -1,15 +1,12 @@
 title "CypherWeavers' Cafe"
 
-neighbor "xxiivv" "https://webring.xxiivv.com" type="ring"
-
+// our webring
 node "https://www.aphrodite.dev" \
 	label="aphrodite.dev" \
 	badge="https://www.aphrodite.dev/assets/badges/badge.gif" {
 	social "https://cathode.church/@nyx" "@nyx@cathode.church"
 	bio "ΘΔ do[ggo|ll]; i need lots of headpats and treats 🥺"
 	bio "Broken cryptid coding weird shit once a year or so."
-
-	knows "xxiivv"
 }
 
 node "https://blog.nemirwen.me/" \
@@ -29,3 +26,9 @@ node "https://oniricorpe.eu/" \
 	social "https://woof.tech/@CyberSaloperie" "@CyberSaloperie@woof.tech [en]"
 	bio "glitched thing trying their best 🍃"
 }
+
+// neighboring webrings
+neighbor "Indigo's link hoard" "https://xaselgio.net/pages/links/" "https://xaselgio.net/88x31_xaselgio_v2.gif"
+
+// neighboring nodes we encountered
+peer "Xaselgio" "https://xaselgio.net/" "https://xaselgio.net/88x31_xaselgio_v2.gif"

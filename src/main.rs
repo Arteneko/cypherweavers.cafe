@@ -26,10 +26,10 @@ fn make_output(
 	Ok(())
 }
 
-fn main() {
+fn main() -> miette::Result<()> {
 	let filename = "config.kdl";
 	let nodefile = fs::read_to_string(filename).expect("config.kdl file not found");
-	let mut ring = knuffel::parse::<Ring>(filename, &nodefile).expect("invalid kdl file");
+	let mut ring = knuffel::parse::<Ring>(filename, &nodefile)?;
 	ring.nodes
 		.sort_unstable_by(|a, b| a.get_label().cmp(&b.get_label()));
 
@@ -37,26 +37,6 @@ fn main() {
 	create_dir_all("public").expect("somehow failed to create the public dir");
 
 	println!(":: it has {} sites!! wow!!!", ring.nodes.len());
-
-	for knows in &ring.knows {
-		if ring.neighbors.iter().find(|n| n.id == knows.id).is_none() {
-			println!(
-				"!! the ring says it knows {} but there's no neighbor with this id",
-				knows.id
-			);
-		}
-	}
-	for node in &ring.nodes {
-		for knows in &node.knows {
-			if ring.neighbors.iter().find(|n| n.id == knows.id).is_none() {
-				println!(
-					"!! site {} says it knows {} but there's no neighbor with this id",
-					node.get_label(),
-					knows.id
-				);
-			}
-		}
-	}
 
 	println!(":: grabbing the lil badge thingies");
 	for node in &mut ring.nodes {
@@ -82,4 +62,6 @@ fn main() {
 		.expect("somehow failed to create the website on-disk");
 
 	println!(":: woof!");
+
+	Ok(())
 }

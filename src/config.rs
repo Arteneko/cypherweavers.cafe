@@ -3,35 +3,21 @@ use std::{collections::hash_map::DefaultHasher, hash::Hasher};
 use serde::Serialize;
 use url::Url;
 
-#[derive(knuffel::DecodeScalar, Serialize, Debug, Clone)]
-pub enum NeighborType {
-	Ring,
-	Website,
-}
-
+// Neighbor is both webring neighbor and peer (individual entity) neighbor
 #[derive(knuffel::Decode, Serialize, Debug, Clone)]
 pub struct Neighbor {
 	#[knuffel(argument)]
-	pub id: String,
+	pub label: String,
 	#[knuffel(argument)]
 	pub link: String,
-	#[knuffel(property(name = "type"))]
-	pub node_type: NeighborType,
-	#[knuffel(property)]
-	pub label: Option<String>,
+	#[knuffel(argument)]
+	pub badge: String,
 }
 
 #[derive(knuffel::Decode, Serialize, Debug, Clone)]
 pub struct Bio {
 	#[knuffel(argument)]
 	pub paragraph: String,
-}
-
-#[derive(knuffel::Decode, Serialize, Debug, Clone)]
-// knows a certain neighbor
-pub struct Knows {
-	#[knuffel(argument)]
-	pub id: String,
 }
 
 #[derive(knuffel::Decode, Serialize, Debug, Clone)]
@@ -48,8 +34,6 @@ pub struct Node {
 	pub social: Vec<Social>,
 	#[knuffel(children(name = "bio"))]
 	pub bio: Vec<Bio>,
-	#[knuffel(children(name = "knows"))]
-	pub knows: Vec<Knows>,
 }
 
 #[derive(knuffel::Decode, Serialize, Debug, Clone)]
@@ -110,6 +94,6 @@ pub struct Ring {
 	pub nodes: Vec<Node>,
 	#[knuffel(children(name = "neighbor"))]
 	pub neighbors: Vec<Neighbor>,
-	#[knuffel(children(name = "knows"))]
-	pub knows: Vec<Knows>,
+	#[knuffel(children(name = "peer"))]
+	pub peers: Vec<Neighbor>,
 }
