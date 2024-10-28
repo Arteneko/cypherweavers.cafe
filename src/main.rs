@@ -26,6 +26,21 @@ fn make_output(
 	Ok(())
 }
 
+macro_rules! download_badge {
+	($e:ident) => {
+		if let Some(badge_url) = $e.get_badge() {
+			match downloader.download(badge_url, &$e.get_label()) {
+				Ok(cached_name) => $e.cached_badge_url = Some(cached_name),
+				Err(e) => println!(
+					"failed to grab the lil badge thingy for {}: {:?}",
+					$e.get_label(),
+					e
+				),
+			};
+		}
+	};
+}
+
 fn main() -> miette::Result<()> {
 	let filename = "config.kdl";
 	let nodefile = fs::read_to_string(filename).expect("config.kdl file not found");

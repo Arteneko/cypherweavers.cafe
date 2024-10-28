@@ -53,6 +53,16 @@ pub fn make_page(data: &Ring) -> Markup {
 						}
 					}
 				}
+
+				section.page {
+					h2 { "Neighboring systems" span.nmap-blink; }
+
+					div.badges {
+						@for node in &data.neighbors {
+							@let node_badge = node.get_badge();
+						}
+					}
+				}
 			}
 		}
 	}

@@ -11,6 +11,12 @@ pub struct Neighbor {
 	pub badge: String,
 }
 
+impl<'a> Neighbor {
+	pub fn get_badge(&'a self) -> &'a String {
+		&self.badge
+	}
+}
+
 #[derive(knuffel::Decode, Serialize, Debug, Clone)]
 pub struct Bio {
 	#[knuffel(argument)]
@@ -24,7 +30,7 @@ pub struct Node {
 	#[knuffel(property)]
 	pub label: Option<String>,
 	#[knuffel(property)]
-	badge: Option<String>,
+	badge: String,
 	#[knuffel(children(name = "social"))]
 	#[serde(default)]
 	pub social: Vec<Social>,
@@ -44,8 +50,8 @@ pub struct Social {
 }
 
 impl<'a> Node {
-	pub fn get_badge(&'a self) -> Option<&'a String> {
-		self.cached_badge_url.as_ref().or(self.badge.as_ref())
+	pub fn get_badge(&'a self) -> &'a String {
+		self.cached_badge_url.as_ref().unwrap_or(self.badge.as_ref())
 	}
 
 	pub fn get_label(&'a self) -> &'a str {
