@@ -22,14 +22,12 @@ pub fn make_page(data: &Ring) -> Markup {
 
 					@for node in &data.nodes {
 						@let node_badge = node.get_badge();
-						article.badged[node_badge.is_some()].node {
-							@if let Some(badge) = &node_badge {
-								header.badge {
-									img src=(badge) alt=(node.get_label());
-								}
+						article.badged.node {
+							header.badge {
+								img src=(&node_badge) alt=(node.label);
 							}
 							main {
-								h3.label { a href=(node.url) { (node.get_label()) } }
+								h3.label { a href=(node.url) { (node.label) } }
 
 								@if node.bio.len() != 0 {
 									section.bio {
@@ -55,11 +53,31 @@ pub fn make_page(data: &Ring) -> Markup {
 				}
 
 				section.page {
-					h2 { "Neighboring systems" span.nmap-blink; }
+					h2 { "Neighbors" span.nmap-blink; }
 
 					div.badges {
 						@for node in &data.neighbors {
 							@let node_badge = node.get_badge();
+							a href=(node.link) { img src=(node_badge) alt=(node.label); }
+							a href=(node.link) { img src=(node_badge) alt=(node.label); }
+							a href=(node.link) { img src=(node_badge) alt=(node.label); }
+							a href=(node.link) { img src=(node_badge) alt=(node.label); }
+							a href=(node.link) { img src=(node_badge) alt=(node.label); }
+						}
+					}
+				}
+
+				section.page {
+					h2 { "Peers" span.wg-blink; }
+
+					div.badges {
+						@for node in &data.peers {
+							@let node_badge = node.get_badge();
+							a href=(node.link) { img src=(node_badge) alt=(node.label); }
+							a href=(node.link) { img src=(node_badge) alt=(node.label); }
+							a href=(node.link) { img src=(node_badge) alt=(node.label); }
+							a href=(node.link) { img src=(node_badge) alt=(node.label); }
+							a href=(node.link) { img src=(node_badge) alt=(node.label); }
 						}
 					}
 				}

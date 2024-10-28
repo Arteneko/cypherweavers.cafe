@@ -4,6 +4,7 @@ pkgs.mkShell {
     rustc cargo gcc lldb_15
     # dev tools
     rustfmt clippy rust-analyzer
+    python3
     # native dependencies
     pkg-config openssl
   ];

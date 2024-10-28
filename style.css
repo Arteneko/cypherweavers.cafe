@@ -90,10 +90,16 @@ section.page > *:not(:first-of-type) {
 	content: '$ nmap 10.10.0.0/8'
 }
 
+.wg-blink::after {
+	content: '$ wg show'
+}
+
 div.badges {
 	display: flex;
-	/*gap: 1rem;*/
-	/*column-gap: 1rem;*/
+	gap: 1rem;
+	column-gap: 1rem;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
 }
 
 a.ring-badge:not(:first-of-type) {

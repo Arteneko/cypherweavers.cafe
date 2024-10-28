@@ -9,11 +9,13 @@ pub struct Neighbor {
 	pub link: String,
 	#[knuffel(argument)]
 	pub badge: String,
+
+	pub cached_badge_url: Option<String>,
 }
 
 impl<'a> Neighbor {
 	pub fn get_badge(&'a self) -> &'a String {
-		&self.badge
+		self.cached_badge_url.as_ref().unwrap_or(&self.badge)
 	}
 }
 
@@ -28,7 +30,7 @@ pub struct Node {
 	#[knuffel(argument)]
 	pub url: String,
 	#[knuffel(property)]
-	pub label: Option<String>,
+	pub label: String,
 	#[knuffel(property)]
 	badge: String,
 	#[knuffel(children(name = "social"))]
@@ -51,11 +53,7 @@ pub struct Social {
 
 impl<'a> Node {
 	pub fn get_badge(&'a self) -> &'a String {
-		self.cached_badge_url.as_ref().unwrap_or(self.badge.as_ref())
-	}
-
-	pub fn get_label(&'a self) -> &'a str {
-		self.label.as_ref().unwrap_or(&self.url)
+		self.cached_badge_url.as_ref().unwrap_or(&self.badge)
 	}
 }
 

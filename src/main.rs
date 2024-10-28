@@ -27,17 +27,14 @@ fn make_output(
 }
 
 macro_rules! download_badge {
-	($e:ident) => {
-		if let Some(badge_url) = $e.get_badge() {
-			match downloader.download(badge_url, &$e.get_label()) {
-				Ok(cached_name) => $e.cached_badge_url = Some(cached_name),
-				Err(e) => println!(
-					"failed to grab the lil badge thingy for {}: {:?}",
-					$e.get_label(),
-					e
-				),
-			};
-		}
+	($d:ident, $e:ident) => {
+		match $d.download(&$e.get_badge(), &$e.label) {
+			Ok(cached_name) => $e.cached_badge_url = Some(cached_name),
+			Err(e) => println!(
+				"failed to grab the lil badge thingy for {}: {:?}",
+				$e.label, e
+			),
+		};
 	};
 }
 
@@ -45,8 +42,7 @@ fn main() -> miette::Result<()> {
 	let filename = "config.kdl";
 	let nodefile = fs::read_to_string(filename).expect("config.kdl file not found");
 	let mut ring = knuffel::parse::<Ring>(filename, &nodefile)?;
-	ring.nodes
-		.sort_unstable_by(|a, b| a.get_label().cmp(&b.get_label()));
+	ring.nodes.sort_unstable_by(|a, b| a.label.cmp(&b.label));
 	let downloader = Downloader::init().expect("unable to init http client");
 
 	println!(":: making a cute lil webring in public/");
@@ -56,16 +52,13 @@ fn main() -> miette::Result<()> {
 
 	println!(":: grabbing the lil badge thingies");
 	for node in &mut ring.nodes {
-		if let Some(badge_url) = node.get_badge() {
-			match downloader.download(badge_url, &node.get_label()) {
-				Ok(cached_name) => node.cached_badge_url = Some(cached_name),
-				Err(e) => println!(
-					"failed to grab the lil badge thingy for {}: {:?}",
-					node.get_label(),
-					e
-				),
-			};
-		}
+		download_badge!(downloader, node);
+	}
+	for neighbor in &mut ring.neighbors {
+		download_badge!(downloader, neighbor);
+	}
+	for peer in &mut ring.peers {
+		download_badge!(downloader, peer);
 	}
 
 	println!(":: making the hypersoup documents");
