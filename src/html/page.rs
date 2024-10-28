@@ -55,6 +55,10 @@ pub fn make_page(data: &Ring) -> Markup {
 				section.page {
 					h2 { "Neighbors" span.nmap-blink; }
 
+					aside {
+						p { "Neighboring star systems (a.k.a webrings) we encountered" }
+					}
+
 					div.badges {
 						@for node in &data.neighbors {
 							@let node_badge = node.get_badge();
@@ -69,6 +73,10 @@ pub fn make_page(data: &Ring) -> Markup {
 
 				section.page {
 					h2 { "Peers" span.wg-blink; }
+
+					aside {
+						p { "Peers are cute badged websites from friendly entities we met" }
+					}
 
 					div.badges {
 						@for node in &data.peers {
